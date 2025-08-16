@@ -17,9 +17,6 @@ importers:
       '@codemirror/view':
         specifier: ^6.38.1
         version: 6.38.1
-      '@types/markdown-it':
-        specifier: ^14.1.2
-        version: 14.1.2
       '@vueuse/core':
         specifier: ^13.6.0
         version: 13.6.0(vue@3.5.18(typescript@5.8.3))
@@ -63,6 +60,9 @@ importers:
       '@types/express':
         specifier: ^5.0.3
         version: 5.0.3
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
       '@types/markdown-it-container':
         specifier: ^2.0.10
         version: 2.0.10
@@ -96,12 +96,6 @@ importers:
       express:
         specifier: ^5.1.0
         version: 5.1.0
-      i:
-        specifier: ^0.3.7
-        version: 0.3.7
-      jiti:
-        specifier: ^2.4.2
-        version: 2.5.1
       lint-staged:
         specifier: ^16.1.5
         version: 16.1.5
@@ -2049,10 +2043,6 @@ packages:
   human-signals@8.0.1:
     resolution: {integrity: sha512-eKCa6bwnJhvxj14kZk5NCPc6Hb6BdsU9DZcOnmQKSnO1VKrfV0zCvtttPZUsBvjmNDn8rpcJfpwSYnHBjc95MQ==}
     engines: {node: '>=18.18.0'}
-
-  i@0.3.7:
-    resolution: {integrity: sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q==}
-    engines: {node: '>=0.4'}
 
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -5477,8 +5467,6 @@ snapshots:
 
   human-signals@8.0.1: {}
 
-  i@0.3.7: {}
-
   iconv-lite@0.6.3:
     dependencies:
       safer-buffer: 2.1.2
@@ -5548,7 +5536,8 @@ snapshots:
 
   isexe@3.1.1: {}
 
-  jiti@2.5.1: {}
+  jiti@2.5.1:
+    optional: true
 
   js-tokens@4.0.0: {}
 
