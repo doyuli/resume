@@ -12,6 +12,7 @@ const templateRef = useTemplateRef('template')
 
 watchEffect(() => {
   templateHtml.value = markdownParser.render(templateStore.code)
+  templateStore.setTemplateHtml(templateHtml.value)
   updateOffsetTop()
 })
 

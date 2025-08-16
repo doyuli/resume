@@ -3,6 +3,9 @@ import AppHeader from '@/components/AppHeader.vue'
 import UEditor from '@/components/UEditor.vue'
 import UPreview from '@/components/UPreview.vue'
 import USplitPane from '@/components/USplitPane.vue'
+import { loadLink } from '@/utils'
+
+loadLink('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap')
 </script>
 
 <template>
