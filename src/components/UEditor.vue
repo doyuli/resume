@@ -2,10 +2,14 @@
 import type { EditorView, ViewUpdate } from '@codemirror/view'
 import { redo, undo } from '@codemirror/commands'
 import { markdown } from '@codemirror/lang-markdown'
-import { reactive, shallowRef } from 'vue'
+import { oneDark } from '@codemirror/theme-one-dark'
+import { computed, reactive, shallowRef } from 'vue'
 import { Codemirror } from 'vue-codemirror'
 import { useTemplateStore } from '@/stores/template'
+import { useThemeStore } from '@/stores/theme'
 import md from '../../templates/default.md?raw'
+
+const themeStore = useThemeStore()
 
 const code = shallowRef(md)
 const editorInstance = shallowRef<EditorView>()
@@ -18,9 +22,9 @@ const options = {
   tabSize: 2,
   autofocus: true,
   height: 'calc(100vh - var(--header-height))',
-  theme: 'default',
-  extensions: [markdown()],
 }
+
+const extensions = computed(() => themeStore.isDark ? [markdown(), oneDark] : [markdown()])
 
 interface EditorState {
   lines?: number
@@ -73,26 +77,26 @@ defineExpose({
 </script>
 
 <template>
-  <Codemirror
-    v-model="code"
-    :style="{
-      width: '100%',
-      height: options.height,
-      backgroundColor: '#fff',
-      color: '#333',
-    }"
-    placeholder="Please enter the code."
-    :extensions="options.extensions"
-    :autofocus="options.autofocus"
-    :disabled="options.disabled"
-    :indent-with-tab="options.indentWithTab"
-    :tab-size="options.tabSize"
-    @update="handleStateUpdate"
-    @ready="handleReady"
-    @change="setCode"
-  />
+  <div class="u-editor">
+    <Codemirror
+      v-model="code"
+      :style="{
+        width: '100%',
+        height: options.height,
+        backgroundColor: '#fff',
+        color: '#333',
+      }"
+      placeholder="Please enter the code."
+      :extensions="extensions"
+      :autofocus="options.autofocus"
+      :disabled="options.disabled"
+      :indent-with-tab="options.indentWithTab"
+      :tab-size="options.tabSize"
+      @update="handleStateUpdate"
+      @ready="handleReady"
+      @change="setCode"
+    />
+  </div>
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

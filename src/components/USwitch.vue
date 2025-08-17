@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { useDark, useToggle } from '@vueuse/core'
+import { useThemeStore } from '@/stores/theme'
 
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
+const { isDark, toggleDark } = useThemeStore()
 </script>
 
 <template>
