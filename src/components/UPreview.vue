@@ -2,7 +2,6 @@
 import { shallowRef, useTemplateRef, watchEffect } from 'vue'
 import { markdownParser } from '@/markdown'
 import { useTemplateStore } from '@/stores/template'
-import UPage from './UPage.vue'
 
 const templateStore = useTemplateStore()
 
@@ -33,17 +32,19 @@ function updateOffsetTop() {
 <template>
   <div class="preview">
     <div class="preview-content">
-      <div ref="template" class="u-view" style="position: absolute;opacity: 0;" v-html="templateHtml" />
-      <UPage v-for="top in templateOffsetTop" :key="top" style="margin-bottom: 20px;">
-        <div class="u-view" :style="{ position: 'absolute', top: `-${top}px` }" v-html="templateHtml" />
-      </UPage>
+      <div ref="template" class="u-view" style="position: absolute; opacity: 0;" v-html="templateHtml" />
+
+      <div v-for="top in templateOffsetTop" :key="top" class="page-wrap" style="margin-bottom: 20px;">
+        <div class="page-content">
+          <div class="u-view" :style="{ position: 'absolute', top: `-${top}px` }" v-html="templateHtml" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .preview {
-  position: relative;
   height: calc(100vh - var(--header-height));
   overflow-y: auto;
   background-color: #606060;
@@ -52,6 +53,20 @@ function updateOffsetTop() {
     position: relative;
     width: 794px;
     margin: 50px auto;
+  }
+}
+
+.page-wrap {
+  padding: 10mm 0;
+  width: 794px;
+  height: 1122px;
+  background-color: #ffffff;
+  overflow: hidden;
+
+  .page-content {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
   }
 }
 </style>
