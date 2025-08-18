@@ -2,9 +2,9 @@
 
 ::: left
 
-姓名：doyuli &nbsp;&nbsp; 教育：大专巅峰
+姓名：doyuli &nbsp;&nbsp; Email：doyulicc@gmail.com
 
-联系方式：12580125980 &nbsp;&nbsp; Email：doyulicc@gmail.com
+站点：resume-doyuli.vercel.app
 
 :::
 
