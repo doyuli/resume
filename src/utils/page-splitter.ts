@@ -22,7 +22,7 @@ export function calculatePageSplits(
   } = options
 
   // 1. 获取所有子元素及其位置信息
-  const children = Array.from(rootElement.children) as HTMLElement[]
+  const children = getElementChildren(rootElement)
   if (children.length === 0) {
     return [
       {
@@ -68,4 +68,20 @@ export function calculatePageSplits(
   })
 
   return pageHeights
+}
+
+const ignoresTagname = ['UL', 'OL']
+function getElementChildren(root: HTMLElement, result: HTMLElement[] = []): HTMLElement[] {
+  for (const child of Array.from(root.children)) {
+    const tagName = child.tagName.toUpperCase()
+    if (ignoresTagname.includes(tagName)) {
+      if (child.children.length > 0) {
+        getElementChildren(child as HTMLElement, result)
+      }
+    }
+    else {
+      result.push(child as HTMLElement)
+    }
+  }
+  return result
 }
