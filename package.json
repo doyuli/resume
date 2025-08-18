@@ -9,9 +9,8 @@
   "scripts": {
     "dev": "vite",
     "dev:service": "tsx watch service/index.ts",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "vite build",
     "preview": "vite preview",
-    "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
