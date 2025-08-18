@@ -4,27 +4,19 @@ import { computed, shallowRef, useTemplateRef } from 'vue'
 const dragging = shallowRef(false)
 const containerRef = useTemplateRef('container')
 
-const split = shallowRef(20)
+const split = shallowRef(480)
 
 const boundSplit = computed(() => {
-  return split.value < 20 ? 20 : split.value > 80 ? 80 : split.value
+  return split.value < 360 ? 360 : split.value
 })
 
-let startPosition = 0
-let startSplit = 0
-
-function dragStart(e: MouseEvent) {
+function dragStart() {
   dragging.value = true
-  startPosition = e.pageX
-  startSplit = boundSplit.value
 }
 
 function dragMove(e: MouseEvent) {
   if (containerRef.value && dragging.value) {
-    const position = e.pageX
-    const totalSize = containerRef.value.offsetWidth
-    const dp = position - startPosition
-    split.value = startSplit + +((dp / totalSize) * 100).toFixed(2)
+    split.value = e.pageX
   }
 }
 
@@ -42,11 +34,11 @@ function dragEnd() {
     @mouseup="dragEnd"
     @mouseleave="dragEnd"
   >
-    <div class="left-pane" :style="{ width: `${boundSplit}%` }">
+    <div class="left-pane" :style="{ width: `${boundSplit}px` }">
       <slot name="left" />
       <div class="dragger" @mousedown.prevent="dragStart" />
     </div>
-    <div class="right-pane" :style="{ width: `${100 - boundSplit}%` }">
+    <div class="right-pane" style="flex: 1;">
       <slot name="right" />
     </div>
   </div>
