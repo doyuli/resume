@@ -17,7 +17,7 @@ export interface ConfigProps {
   basicSetup?: boolean | BasicSetupOptions
 }
 
-export interface Props extends ConfigProps {
+export interface VueCodemirrorProps extends ConfigProps {
   modelValue: string
 }
 
