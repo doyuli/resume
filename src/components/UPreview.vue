@@ -3,6 +3,7 @@ import type { PageSplitReturn } from '../utils/page-splitter'
 import { nextTick, shallowRef, useTemplateRef, watchEffect } from 'vue'
 import { markdownParser } from '@/markdown'
 import { useTemplateStore } from '@/stores/template'
+import { loadLink } from '@/utils'
 import { calculatePageSplits } from '../utils/page-splitter'
 
 const templateStore = useTemplateStore()
@@ -11,18 +12,25 @@ const templateHtml = shallowRef('')
 
 const templateRef = useTemplateRef('template')
 
+const templatePageSplits = shallowRef<PageSplitReturn[]>([])
+
+let fontLoaded = false
+async function updatePageSplits() {
+  // 确保字体已经加载
+  if (!fontLoaded) {
+    await loadLink('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap')
+    await document.fonts?.ready
+    fontLoaded = true
+  }
+  await nextTick()
+  templatePageSplits.value = calculatePageSplits(templateRef.value!, { pageMaxHeight: 1122 - 40 })
+}
+
 watchEffect(() => {
   templateHtml.value = markdownParser.render(templateStore.code)
   templateStore.setTemplateHtml(templateHtml.value)
   updatePageSplits()
 })
-
-const templatePageSplits = shallowRef<PageSplitReturn[]>([])
-function updatePageSplits() {
-  nextTick(() => {
-    templatePageSplits.value = calculatePageSplits(templateRef.value!, { pageMaxHeight: 1122 - 40 })
-  })
-}
 </script>
 
 <template>
