@@ -1,39 +1,38 @@
-# resume-gen
+# 🧾 Resume Generator | Markdown 简历生成器
 
-This template should help get you started developing with Vue 3 in Vite.
+一款基于 Markdown 的 **在线简历生成工具**，内置多套精美模板，支持实时预览、PDF 导出和深度自定义。
+🚀 **无需前端知识**，用 Markdown 轻松打造专业简历！
 
-## Recommended IDE Setup
+## ✨ 核心功能
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **📝 Markdown 驱动** - 用熟悉的语法编写内容，实时渲染简历
+- **🎨 多模板切换** - 内置现代、简约、学术等多种风格模板
+- **🌈 主题定制** - 自定义颜色、字体、间距等视觉元素
+- **🔄 动态模块** - 自由调整模块顺序，显示/隐藏特定模块
+- **📤 一键导出** - 支持 PDF/PNG 高清导出（前端+服务端双模式）
 
-## Type Support for `.vue` Imports in TS
+## 🚀 快速开始
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+### 在线使用
 
-## Customize configuration
+1. 访问 [resume.vercel.app](https://github.com/doyuli/resume)
+2. 在左侧编辑 Markdown，右侧实时预览
+3. 点击「导出 PDF」生成简历
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### 本地开发
 
-## Project Setup
-
-```sh
+```bash
+# 安装依赖
 pnpm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# 启动前端开发服务器
 pnpm dev
+
+# （可选）如需服务端 PDF 渲染（Puppeteer）
+pnpm dev:service
 ```
 
-### Type-Check, Compile and Minify for Production
+## ✨ Recommendation
 
-```sh
-pnpm build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+- [mujicv](https://www.mujicv.com/)
+- [codemirror](https://codemirror.net/)
