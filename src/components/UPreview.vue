@@ -20,7 +20,7 @@ watchEffect(() => {
 const templatePageSplits = shallowRef<PageSplitReturn[]>([])
 function updatePageSplits() {
   nextTick(() => {
-    templatePageSplits.value = calculatePageSplits(templateRef.value!, { pageMaxHeight: 1102 })
+    templatePageSplits.value = calculatePageSplits(templateRef.value!, { pageMaxHeight: 1122 - 40 })
   })
 }
 </script>
