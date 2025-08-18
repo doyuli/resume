@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTemplateStore } from '@/stores/template'
+import { useTemplateStore } from '@/stores'
 import defaultCss from '@/styles/default.css?raw'
 import { downloadFile } from '@/utils'
 

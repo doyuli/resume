@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import type { EditorView, ViewUpdate } from '@codemirror/view'
-import { redo, undo } from '@codemirror/commands'
-import { markdown } from '@codemirror/lang-markdown'
-import { oneDark } from '@codemirror/theme-one-dark'
+import type { ViewUpdate } from '@/codemirror'
 import { computed, reactive, shallowRef } from 'vue'
-import { Codemirror } from 'vue-codemirror'
-import { useTemplateStore } from '@/stores/template'
-import { useThemeStore } from '@/stores/theme'
+import { Codemirror, EditorView, markdown, oneDark, redo, undo } from '@/codemirror'
+import { useTemplateStore, useThemeStore } from '@/stores'
 import md from '../../templates/default.md?raw'
 
 const themeStore = useThemeStore()
@@ -21,10 +17,21 @@ const options = {
   indentWithTab: true,
   tabSize: 2,
   autofocus: true,
-  height: 'calc(100vh - var(--header-height))',
+  style: {
+    height: 'calc(100vh - var(--header-height))',
+    color: 'var(--u-text-1)',
+  },
 }
 
-const extensions = computed(() => themeStore.isDark ? [markdown(), oneDark] : [markdown()])
+const extensions = computed(() => {
+  const _extensions = [
+    markdown(),
+    EditorView.lineWrapping,
+  ]
+  if (themeStore.isDark)
+    _extensions.push(oneDark)
+  return _extensions
+})
 
 interface EditorState {
   lines?: number
@@ -54,7 +61,7 @@ function handleRedo() {
   })
 }
 
-function handleReady({ view }: any) {
+function handleReady({ view }: { view: EditorView }) {
   editorInstance.value = view
 }
 
@@ -80,13 +87,9 @@ defineExpose({
   <div class="u-editor">
     <Codemirror
       v-model="code"
-      :style="{
-        width: '100%',
-        height: options.height,
-        backgroundColor: '#fff',
-        color: '#333',
-      }"
-      placeholder="Please enter the code."
+      :style="options.style"
+      placeholder="请输入..."
+      :basic-setup="{ lineNumbers: false, foldGutter: false }"
       :extensions="extensions"
       :autofocus="options.autofocus"
       :disabled="options.disabled"
