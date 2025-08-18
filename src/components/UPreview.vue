@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { PageSplitReturn } from '../utils/page-splitter'
-import { nextTick, shallowRef, useTemplateRef, watchEffect } from 'vue'
+import { useDebounceFn } from '@vueuse/core'
+import { nextTick, onMounted, onUnmounted, shallowRef, useTemplateRef, watchEffect } from 'vue'
 import { markdownParser } from '@/markdown'
 import { useTemplateStore } from '@/stores/template'
-import { loadLink } from '@/utils'
 import { calculatePageSplits } from '../utils/page-splitter'
 
 const templateStore = useTemplateStore()
@@ -14,22 +14,34 @@ const templateRef = useTemplateRef('template')
 
 const templatePageSplits = shallowRef<PageSplitReturn[]>([])
 
-let fontLoaded = false
-async function updatePageSplits() {
-  // 确保字体已经加载
-  if (!fontLoaded) {
-    await loadLink('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap')
-    await document.fonts?.ready
-    fontLoaded = true
-  }
-  await nextTick()
-  templatePageSplits.value = calculatePageSplits(templateRef.value!, { pageMaxHeight: 1122 - 40 })
+function updatePageSplits() {
+  nextTick(() => {
+    templatePageSplits.value = calculatePageSplits(templateRef.value!, { pageMaxHeight: 1122 - 40 })
+  })
 }
+
+const debouncedUpdatePageSplits = useDebounceFn(() => {
+  updatePageSplits()
+}, 200)
+
+const resizeObserver = new ResizeObserver(() => {
+  debouncedUpdatePageSplits()
+})
 
 watchEffect(() => {
   templateHtml.value = markdownParser.render(templateStore.code)
   templateStore.setTemplateHtml(templateHtml.value)
-  updatePageSplits()
+  debouncedUpdatePageSplits()
+})
+
+onMounted(() => {
+  if (templateRef.value) {
+    resizeObserver.observe(templateRef.value)
+  }
+})
+
+onUnmounted(() => {
+  resizeObserver.disconnect()
 })
 </script>
 
