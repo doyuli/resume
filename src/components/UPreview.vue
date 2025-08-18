@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { shallowRef, useTemplateRef, watchEffect } from 'vue'
+import type { PageSplitReturn } from '../utils/page-splitter'
+import { nextTick, shallowRef, useTemplateRef, watchEffect } from 'vue'
 import { markdownParser } from '@/markdown'
 import { useTemplateStore } from '@/stores/template'
+import { calculatePageSplits } from '../utils/page-splitter'
 
 const templateStore = useTemplateStore()
 
@@ -12,20 +14,14 @@ const templateRef = useTemplateRef('template')
 watchEffect(() => {
   templateHtml.value = markdownParser.render(templateStore.code)
   templateStore.setTemplateHtml(templateHtml.value)
-  updateOffsetTop()
+  updatePageSplits()
 })
 
-const pageHeight = 1122
-const templateOffsetTop = shallowRef<number[]>([])
-function updateOffsetTop() {
-  const templateOffsetHeight = templateRef.value?.offsetHeight
-  if (templateOffsetHeight) {
-    const pageNum = Math.ceil(templateOffsetHeight / pageHeight)
-    const result = Array.from({ length: pageNum }, (_, i) => {
-      return i * pageHeight
-    })
-    templateOffsetTop.value = result
-  }
+const templatePageSplits = shallowRef<PageSplitReturn[]>([])
+function updatePageSplits() {
+  nextTick(() => {
+    templatePageSplits.value = calculatePageSplits(templateRef.value!, { pageMaxHeight: 1102 })
+  })
 }
 </script>
 
@@ -34,9 +30,9 @@ function updateOffsetTop() {
     <div class="preview-content">
       <div ref="template" class="u-view" style="position: absolute; opacity: 0;" v-html="templateHtml" />
 
-      <div v-for="top in templateOffsetTop" :key="top" class="page-wrap" style="margin-bottom: 20px;">
-        <div class="page-content">
-          <div class="u-view" :style="{ position: 'absolute', top: `-${top}px` }" v-html="templateHtml" />
+      <div v-for="({ accTop, height }) in templatePageSplits" :key="accTop" class="page-wrap" style="margin-bottom: 20px;">
+        <div class="page-content" :style="{ height: `${height}px` }">
+          <div class="u-view" :style="{ position: 'absolute', top: `-${accTop}px` }" v-html="templateHtml" />
         </div>
       </div>
     </div>
@@ -57,7 +53,7 @@ function updateOffsetTop() {
 }
 
 .page-wrap {
-  padding: 10mm 0;
+  padding: 20px 0;
   width: 794px;
   height: 1122px;
   background-color: #ffffff;
@@ -65,7 +61,6 @@ function updateOffsetTop() {
 
   .page-content {
     position: relative;
-    height: 100%;
     overflow: hidden;
   }
 }
