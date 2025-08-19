@@ -84,4 +84,12 @@ onUnmounted(() => {
     overflow: hidden;
   }
 }
+
+/** dark theme */
+.dark .page-wrap {
+  background-color: #e6e6e6 !important;
+}
+.dark .u-view {
+  background-color: #e6e6e6 !important;
+}
 </style>
