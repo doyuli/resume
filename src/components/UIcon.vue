@@ -52,6 +52,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .u-icon {
+  display: inline-block;
   fill: currentColor;
 }
 </style>
