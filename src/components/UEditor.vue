@@ -2,10 +2,10 @@
 import type { ViewUpdate } from '@/codemirror'
 import { computed, reactive, shallowRef } from 'vue'
 import { Codemirror, EditorView, markdown, oneDark, redo, undo } from '@/codemirror'
-import { useTemplateStore, useThemeStore } from '@/stores'
+import { useDarkStore, useTemplateStore } from '@/stores'
 import md from '../../templates/default.md?raw'
 
-const themeStore = useThemeStore()
+const darkStore = useDarkStore()
 const templateStore = useTemplateStore()
 
 const code = shallowRef(templateStore.code ? templateStore.code : md)
@@ -28,7 +28,7 @@ const extensions = computed(() => {
     markdown(),
     EditorView.lineWrapping,
   ]
-  if (themeStore.isDark)
+  if (darkStore.isDark)
     _extensions.push(oneDark)
   return _extensions
 })

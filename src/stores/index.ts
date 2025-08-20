@@ -1,10 +1,10 @@
+import { useDarkStore } from './dark'
 import { StylePropertyEnum, useResumeStore } from './resume'
 import { useTemplateStore } from './template'
-import { useThemeStore } from './theme'
 
 export {
   StylePropertyEnum,
+  useDarkStore,
   useResumeStore,
   useTemplateStore,
-  useThemeStore,
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/stores/theme'
+import { useDarkStore } from '@/stores'
 
-const { isDark, toggleDark } = useThemeStore()
+const { isDark, toggleDark } = useDarkStore()
 </script>
 
 <template>
