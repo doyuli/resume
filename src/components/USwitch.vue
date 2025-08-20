@@ -8,8 +8,8 @@ const { isDark, toggleDark } = useThemeStore()
   <button :aria-checked="isDark" class="u-switch" type="button" role="switch" @click="toggleDark()">
     <span class="check">
       <span class="icon">
-        <span class="vpi-sun sun" />
-        <span class="vpi-moon moon" />
+        <span class="i-sun sun" />
+        <span class="i-moon moon" />
       </span>
     </span>
   </button>
@@ -53,18 +53,18 @@ const { isDark, toggleDark } = useThemeStore()
   height: 18px;
   border-radius: 50%;
   overflow: hidden;
+
+  [class^='i-'] {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    color: var(--u-text-2);
+  }
 }
 
-.icon :deep([class^='vpi-']) {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 12px;
-  height: 12px;
-  color: var(--u-text-2);
-}
-
-.dark .icon :deep([class^='vpi-']) {
+.dark .icon [class^='i-'] {
   color: var(--u-text-1);
   transition: opacity 0.25s !important;
 }

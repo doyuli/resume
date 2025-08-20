@@ -1,18 +1,15 @@
-[class^='vpi-'],
-[class*=' vpi-'],
-.vp-icon {
+[class^='i-'],
+[class*=' i-'] {
   width: 1em;
   height: 1em;
 }
-[class^='vpi-'].bg,
-[class*=' vpi-'].bg,
-.vp-icon.bg {
+[class^='i-'].bg,
+[class*=' i-'].bg {
   background-size: 100% 100%;
   background-color: transparent;
 }
-[class^='vpi-']:not(.bg),
-[class*=' vpi-']:not(.bg),
-.vp-icon:not(.bg) {
+[class^='i-']:not(.bg),
+[class*=' i-']:not(.bg) {
   -webkit-mask: var(--icon) no-repeat;
   mask: var(--icon) no-repeat;
   -webkit-mask-size: 100% 100%;
@@ -21,9 +18,9 @@
   color: inherit;
 }
 
-.vpi-sun {
+.i-sun {
   --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41'/%3E%3C/g%3E%3C/svg%3E");
 }
-.vpi-moon {
+.i-moon {
   --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 3a6 6 0 0 0 9 9a9 9 0 1 1-9-9'/%3E%3C/svg%3E");
 }
