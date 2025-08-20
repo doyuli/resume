@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { shallowRef } from 'vue'
 import { useResumeStore, useTemplateStore } from '@/stores'
 import { downloadFile } from '@/utils'
-
 import UIconLink from './UIconLink.vue'
 import USwitch from './USwitch.vue'
 
@@ -11,22 +11,35 @@ const { getExportHtml } = useTemplateStore()
 const resumeStore = useResumeStore()
 const { name: resumeName } = storeToRefs(resumeStore)
 
-async function exportPdf() {
-  const resp = await fetch('/api/export', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      htmlContent: getExportHtml(),
-    }),
-  })
+const isLoading = shallowRef(false)
 
-  if (!resp.ok) {
-    console.error(resp.statusText)
+async function exportPdf() {
+  if (isLoading.value)
     return
+
+  try {
+    isLoading.value = true
+    const resp = await fetch('/api/export', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        htmlContent: getExportHtml(),
+      }),
+    })
+
+    if (!resp.ok) {
+      // eslint-disable-next-line no-alert
+      alert('暂不支持客户端导出，敬请期待！')
+      throw new Error(resp.statusText)
+    }
+
+    downloadFile(await resp.blob(), resumeName.value)
   }
-  downloadFile(await resp.blob(), resumeName.value)
+  finally {
+    isLoading.value = false
+  }
 }
 </script>
 
@@ -40,8 +53,8 @@ async function exportPdf() {
       <div class="divider" />
       <USwitch />
       <div class="divider" />
-      <button @click="exportPdf">
-        导出
+      <button :class="{ loading: isLoading }" @click="exportPdf">
+        {{ isLoading ? '导出中' : '导出' }}
       </button>
     </div>
   </header>
@@ -108,5 +121,6 @@ button {
   border-radius: 8px;
   border: none;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 </style>
