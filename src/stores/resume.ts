@@ -7,13 +7,19 @@ export enum StylePropertyEnum {
   FONT_FAMILY = '--u-font-family',
 }
 
-export const useResumeStore = defineStore('resume', () => {
-  const resumeConfig = reactive({
-    name: 'resume',
-    fontFamily: 'Noto Sans SC',
-    color: '#a8b1ff',
-    lineHeight: 1.9,
-  })
+export const useResumeStore = defineStore(
+  'resume',
+  () => {
+    const resumeConfig = reactive({
+      name: 'resume',
+      fontFamily: 'Noto Sans SC',
+      color: '#a8b1ff',
+      lineHeight: 1.9,
+    })
 
-  return toRefs(resumeConfig)
-})
+    return toRefs(resumeConfig)
+  },
+  {
+    persist: true,
+  },
+)

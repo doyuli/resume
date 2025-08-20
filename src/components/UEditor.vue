@@ -6,11 +6,11 @@ import { useTemplateStore, useThemeStore } from '@/stores'
 import md from '../../templates/default.md?raw'
 
 const themeStore = useThemeStore()
+const templateStore = useTemplateStore()
 
-const code = shallowRef(md)
+const code = shallowRef(templateStore.code ? templateStore.code : md)
 const editorInstance = shallowRef<EditorView>()
-const { setCode } = useTemplateStore()
-setCode(code.value)
+templateStore.setCode(code.value)
 
 const options = {
   disabled: false,
@@ -97,7 +97,7 @@ defineExpose({
       :tab-size="options.tabSize"
       @update="handleStateUpdate"
       @ready="handleReady"
-      @change="setCode"
+      @change="templateStore.setCode"
     />
   </div>
 </template>
