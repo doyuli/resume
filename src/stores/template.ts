@@ -1,8 +1,12 @@
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import { shallowRef } from 'vue'
 import defaultCss from '@/themes/default.css?raw'
+import { StylePropertyEnum, useResumeStore } from '.'
 
 export const useTemplateStore = defineStore('template', () => {
+  const resumeStore = useResumeStore()
+  const { color, lineHeight, fontFamily } = storeToRefs(resumeStore)
+
   const code = shallowRef('')
   const templateHtml = shallowRef('')
 
@@ -23,9 +27,14 @@ export const useTemplateStore = defineStore('template', () => {
   }
 
   function getExportHtml() {
+    const styleContent = (defaultCss)
+      .replaceAll(`var(${[StylePropertyEnum.THEME_COLOR]})`, color.value)
+      .replaceAll(`var(${[StylePropertyEnum.LINE_HEIGHT]})`, lineHeight.value.toString())
+      .replaceAll(`var(${[StylePropertyEnum.FONT_FAMILY]})`, fontFamily.value)
+
     const htmlContent = `
   <style>
-  ${(defaultCss).replaceAll('var(--u-theme)', '#a8b1ff')}
+  ${styleContent}
   </style>
   <div class="u-view">
   ${getTemplateHtml()}

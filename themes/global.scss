@@ -1,5 +1,5 @@
 * {
-  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif !important;
+  font-family: var(--u-font-family);
 }
 
 .u-view {
@@ -9,6 +9,7 @@
   padding-left: 50px;
   padding-right: 50px;
   box-sizing: border-box;
+  line-height: var(--u-line-height);
 
   h1,
   h2,

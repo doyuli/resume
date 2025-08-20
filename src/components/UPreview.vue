@@ -1,10 +1,24 @@
 <script setup lang="ts">
-import type { PageSplitReturn } from '../utils/page-splitter'
+import type { PageSplitReturn } from '@/utils/page-splitter'
 import { useDebounceFn } from '@vueuse/core'
-import { nextTick, onMounted, onUnmounted, shallowRef, useTemplateRef, watchEffect } from 'vue'
+import { storeToRefs } from 'pinia'
+import {
+  nextTick,
+  onMounted,
+  onUnmounted,
+  shallowRef,
+  useTemplateRef,
+  watchEffect,
+} from 'vue'
 import { markdownParser } from '@/markdown'
-import { useTemplateStore } from '@/stores/template'
-import { calculatePageSplits } from '../utils/page-splitter'
+import {
+  StylePropertyEnum,
+  useResumeStore,
+  useTemplateStore,
+} from '@/stores'
+import { calculatePageSplits } from '@/utils/page-splitter'
+
+import UOperations from './UOperations.vue'
 
 const templateStore = useTemplateStore()
 
@@ -43,11 +57,23 @@ onMounted(() => {
 onUnmounted(() => {
   resizeObserver.disconnect()
 })
+
+/** setting */
+const resumeStore = useResumeStore()
+const { color, lineHeight, fontFamily } = storeToRefs(resumeStore)
 </script>
 
 <template>
   <div class="preview">
-    <div class="preview-content">
+    <div
+      class="preview-content"
+      :style="{
+        [StylePropertyEnum.THEME_COLOR]: color,
+        [StylePropertyEnum.LINE_HEIGHT]: lineHeight,
+        [StylePropertyEnum.FONT_FAMILY]: fontFamily,
+      }"
+    >
+      <UOperations />
       <div ref="template" class="u-view" style="position: absolute; opacity: 0;" v-html="templateHtml" />
 
       <div v-for="({ accTop, height }) in templatePageSplits" :key="accTop" class="page-wrap" style="margin-bottom: 20px;">
@@ -68,7 +94,7 @@ onUnmounted(() => {
   .preview-content {
     position: relative;
     width: 794px;
-    margin: 50px auto;
+    margin: 12px auto 50px;
   }
 }
 
