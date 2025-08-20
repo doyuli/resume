@@ -4,6 +4,9 @@
 
 🚀 **无需前端知识**，用 Markdown 轻松打造专业简历！
 
+> [!TIP]
+> 项目开发中...部分功能暂未实现，敬请期待
+
 ## ✨ 核心功能
 
 - **📝 Markdown 驱动** - 用熟悉的语法编写内容，实时渲染简历
@@ -16,7 +19,7 @@
 
 ### 在线使用
 
-1. 访问 [resume.vercel.app](https://github.com/doyuli/resume)
+1. 访问 [https://resume-doyuli.vercel.app](https://resume-doyuli.vercel.app/)
 2. 在左侧编辑 Markdown，右侧实时预览
 3. 点击「导出 PDF」生成简历
 
@@ -30,7 +33,7 @@ pnpm install
 pnpm dev
 
 # （可选）如需服务端 PDF 渲染（Puppeteer）
-pnpm dev:service
+pnpm dev:node
 ```
 
 ## ✨ Recommendation
