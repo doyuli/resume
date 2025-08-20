@@ -6,7 +6,6 @@ import { routes } from 'vue-router/auto-routes'
 import App from './App.vue'
 import './styles/main.css'
 import './styles/icons.css'
-import './themes/global.css'
 import './themes/default.css'
 
 const router = createRouter({

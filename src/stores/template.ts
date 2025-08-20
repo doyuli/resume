@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { shallowRef } from 'vue'
 import defaultCss from '@/themes/default.css?raw'
-import globalCss from '@/themes/global.css?raw'
 
 export const useTemplateStore = defineStore('template', () => {
   const code = shallowRef('')
@@ -26,7 +25,7 @@ export const useTemplateStore = defineStore('template', () => {
   function getExportHtml() {
     const htmlContent = `
   <style>
-  ${(globalCss + defaultCss).replaceAll('var(--u-theme)', '#a8b1ff')}
+  ${(defaultCss).replaceAll('var(--u-theme)', '#a8b1ff')}
   </style>
   <div class="u-view">
   ${getTemplateHtml()}
