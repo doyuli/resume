@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "dev:service": "tsx watch service/index.ts",
+    "dev:node": "tsx watch service/index.ts",
     "build": "vite build",
     "preview": "vite preview",
     "type-check": "vue-tsc --build",
