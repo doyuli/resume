@@ -1,34 +1,24 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useResumeStore, useTemplateStore } from '@/stores'
-import defaultCss from '@/styles/default.css?raw'
 import { downloadFile } from '@/utils'
 
 import UIconLink from './UIconLink.vue'
 import USwitch from './USwitch.vue'
 
-const { getTemplateHtml } = useTemplateStore()
+const { getExportHtml } = useTemplateStore()
 
 const resumeStore = useResumeStore()
 const { name: resumeName } = storeToRefs(resumeStore)
 
 async function exportPdf() {
-  const htmlContent = `
-  <style>
-  ${defaultCss.replaceAll('var(--u-theme)', '#a8b1ff')}
-  </style>
-  <div class="u-view">
-  ${getTemplateHtml()}
-  </div>
-  `
-
   const resp = await fetch('/api/export', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      htmlContent,
+      htmlContent: getExportHtml(),
     }),
   })
 

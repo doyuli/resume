@@ -20,6 +20,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "type-check": "vue-tsc --build",
+    "compile:theme": "sass themes:src/themes --no-source-map --style=compressed --watch",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "postinstall": "simple-git-hooks"

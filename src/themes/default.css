@@ -1,0 +1,28 @@
+.u-view {
+  line-height: 1.9;
+  font-family: Noto Sans SC;
+}
+.u-view .lr-container {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.u-view h1 {
+  font-size: 30px;
+  margin-bottom: 12px;
+}
+.u-view h2 {
+  font-size: 20px;
+  color: var(--u-theme);
+  border-bottom: 1px solid var(--u-theme);
+}
+.u-view h3 {
+  font-size: 14px;
+}
+.u-view h2,
+.u-view h3 {
+  margin: 5px 0;
+}
+.u-view p,
+.u-view li {
+  font-size: 14px;
+}
