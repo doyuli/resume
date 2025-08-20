@@ -2,6 +2,7 @@
 import { loadLink } from '@/utils'
 
 loadLink('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap')
+loadLink('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&display=swap')
 </script>
 
 <template>

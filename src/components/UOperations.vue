@@ -20,9 +20,13 @@ const fonts = [
     value: 'Noto Sans SC',
   },
   {
-    label: '苹果方正',
-    value: 'Pingfang',
+    label: '思源宋体',
+    value: 'Noto Serif SC',
   },
+  // {
+  //   label: '苹果方正',
+  //   value: 'PingFang SC',
+  // },
 ]
 </script>
 
