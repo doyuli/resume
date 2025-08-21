@@ -3,8 +3,6 @@
 }
 
 .u-view {
-  $text-color: #747474;
-
   width: 100%;
   padding-left: 50px;
   padding-right: 50px;
@@ -57,7 +55,7 @@
   }
 
   a {
-    color: $text-color;
+    color: var(--text-color, #747474);
     text-decoration: none;
     cursor: pointer;
     -webkit-text-decoration-skip: objects;
@@ -65,14 +63,14 @@
     &:hover,
     &:focus,
     &:active {
-      color: $text-color;
+      color: var(--text-color, #747474);
       text-decoration: none;
       outline: 0;
     }
   }
 
   p {
-    color: $text-color;
+    color: var(--text-color, #747474);
   }
 
   ul,
@@ -92,7 +90,7 @@
   }
 
   li {
-    color: $text-color;
+    color: var(--text-color, #747474);
   }
 
   .lr-container {
