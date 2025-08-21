@@ -2,13 +2,17 @@
 
 ::: left
 
-姓名：doyuli &nbsp;&nbsp; Email：[doyulicc@gmail.com](mailto:doyulicc@gmail.com)
+姓名：doyuli 8-)
 
-站点：[resume-doyuli.vercel.app](https://resume-doyuli.vercel.app)
+Email：[doyulicc@gmail.com](mailto:doyulicc@gmail.com)
 
 :::
 
 ::: right
+
+[:icon-mdi:home resume-doyuli.vercel.app](https://resume-doyuli.vercel.app)
+
+[:icon-mdi:github https://github.com/doyuli/resume](https://github.com/doyuli/resume)
 
 :::
 
