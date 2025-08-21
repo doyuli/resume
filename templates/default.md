@@ -2,9 +2,9 @@
 
 ::: left
 
-姓名：doyuli &nbsp;&nbsp; Email：doyulicc@gmail.com
+姓名：doyuli &nbsp;&nbsp; Email：[doyulicc@gmail.com](mailto:doyulicc@gmail.com)
 
-站点：resume-doyuli.vercel.app
+站点：[resume-doyuli.vercel.app](https://resume-doyuli.vercel.app)
 
 :::
 
