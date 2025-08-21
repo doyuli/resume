@@ -1,12 +1,13 @@
 import markdownit from 'markdown-it'
-import mdContainer from 'markdown-it-container'
+import container from 'markdown-it-container'
 import { full as emoji } from 'markdown-it-emoji'
+import { HContainer } from './h-container'
 
 const markdownParser = markdownit()
 
 markdownParser
   .use(emoji)
-  .use(mdContainer, 'left', {
+  .use(container, 'left', {
     render(tokens: any, idx: any) {
       if (tokens[idx].nesting === 1) {
         return '<div class="lr-container"><div class="left">'
@@ -16,7 +17,7 @@ markdownParser
       }
     },
   })
-  .use(mdContainer, 'right', {
+  .use(container, 'right', {
     render(tokens: any, idx: any) {
       if (tokens[idx].nesting === 1) {
         return '<div class="right">'
@@ -26,7 +27,7 @@ markdownParser
       }
     },
   })
-  .use(mdContainer, 'center', {
+  .use(container, 'center', {
     render(tokens: any, idx: any) {
       if (tokens[idx].nesting === 1) {
         return '<div class="center">'
@@ -36,6 +37,7 @@ markdownParser
       }
     },
   })
+  .use(HContainer)
 
 export {
   markdownParser,
