@@ -1,8 +1,8 @@
 import type MarkdownIt from 'markdown-it'
-import container from 'markdown-it-container'
+
+export const H_BLOCK_CLASS_NAME = 'h-block'
 
 export function HContainer(md: MarkdownIt) {
-  // 预处理
   md.core.ruler.after('block', 'h-container', (state) => {
     const tokens = state.tokens
     const headingStack: number[] = []
@@ -13,41 +13,38 @@ export function HContainer(md: MarkdownIt) {
       if (token.type === 'heading_open') {
         const level = Number(token.tag.slice(1)) // h1 -> 1, h2 -> 2
 
-        // 先关闭不再需要的容器
+        // 先关闭比当前 level 大或相等的容器
         while (headingStack.length > 0 && level <= headingStack[headingStack.length - 1]) {
-          state.tokens.splice(i, 0, new state.Token('container_close', 'div', -1))
+          const close = new state.Token('container_close', 'div', -1)
+          tokens.splice(i, 0, close)
           headingStack.pop()
-          i++
+          i++ // 调整索引，避免错位
         }
 
         // 打开新容器
         const open = new state.Token('container_open', 'div', 1)
-        open.attrSet('class', `h${level}-block`)
-        state.tokens.splice(i, 0, open)
+        open.attrSet('class', `h${level}-block ${H_BLOCK_CLASS_NAME}`)
+        tokens.splice(i, 0, open)
         headingStack.push(level)
-        i++
+        i++ // 跳过新插入的 open
       }
     }
 
-    // 文件结束时，补齐关闭
+    // 文档结束时，关闭所有剩余的容器
     while (headingStack.length > 0) {
-      state.tokens.push(new state.Token('container_close', 'div', -1))
+      const close = new state.Token('container_close', 'div', -1)
+      tokens.push(close)
       headingStack.pop()
     }
   })
 
-  // 为每个标题级别注册对应的容器处理器
-  for (let level = 1; level <= 6; level++) {
-    md.use(container, `h${level}-block`, {
-      render: (tokens: any[], idx: number) => {
-        const token = tokens[idx]
-        if (token.nesting === 1) {
-          return `<div class="h${level}-block block">\n`
-        }
-        else {
-          return '</div>\n'
-        }
-      },
-    })
+  md.renderer.rules.container_open = (tokens, idx) => {
+    const token = tokens[idx]
+    const cls = token.attrGet('class')
+    return `<div class="${cls}">\n`
+  }
+
+  md.renderer.rules.container_close = () => {
+    return '</div>\n'
   }
 }

@@ -1,3 +1,5 @@
+import { H_BLOCK_CLASS_NAME } from '../markdown/h-container'
+
 export interface PageSplitOptions {
   pageMaxHeight?: number
 }
@@ -70,11 +72,12 @@ export function calculatePageSplits(
   return pageHeights
 }
 
-const ignoresTagname = ['UL', 'OL']
+const ignoresTagname = new Set(['UL', 'OL'])
 function getElementChildren(root: HTMLElement, result: HTMLElement[] = []): HTMLElement[] {
   for (const child of Array.from(root.children)) {
     const tagName = child.tagName.toUpperCase()
-    if (ignoresTagname.includes(tagName)) {
+    const className = child.className
+    if (ignoresTagname.has(tagName) || className.includes(H_BLOCK_CLASS_NAME)) {
       if (child.children.length > 0) {
         getElementChildren(child as HTMLElement, result)
       }
