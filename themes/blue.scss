@@ -5,12 +5,6 @@
 }
 
 .u-view {
-  color: #ffffff;
-  .h-block:not(.h1-block) {
-    color: rgba(0, 0, 0, 0.85);
-    background-color: #ffffff;
-  }
-
   .h1-block {
     padding-top: 10px;
     color: #ffffff;
@@ -20,16 +14,19 @@
   .lr-container {
     padding-top: 10px;
     padding-bottom: 20px;
-    p {
-      color: #ffffff;
-    }
   }
 
-  a {
-    color: #ffffff;
-    &:hover,
-    &:focus,
-    &:active {
+  .h1-block,
+  .lr-container {
+    a {
+      color: #ffffff;
+      &:hover,
+      &:focus,
+      &:active {
+        color: #ffffff;
+      }
+    }
+    p {
       color: #ffffff;
     }
   }
@@ -37,6 +34,7 @@
   h1 {
     font-size: 30px;
     margin-bottom: 12px;
+    border-bottom: 1px solid #ffffff;
   }
 
   h2 {
@@ -51,8 +49,8 @@
 
   h2,
   h3 {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 
   p,

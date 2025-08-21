@@ -2,6 +2,32 @@ import type MarkdownIt from 'markdown-it'
 
 export const H_BLOCK_CLASS_NAME = 'h-block'
 
+/**
+ * MarkdownIt 插件：为标题及其内容包裹分级容器
+ *
+ * 功能说明：
+ * - 解析 Markdown 时，根据标题层级 (h1, h2, h3, ...) 自动插入 <div> 容器
+ * - 容器的 class 命名规则为：`h{level}-block h-block`
+ *   例如：
+ *     # 一级标题   => <div class="h1-block h-block"> ... </div>
+ *     ## 二级标题  => <div class="h2-block h-block"> ... </div>
+ *     ### 三级标题 => <div class="h3-block h-block"> ... </div>
+ * - 容器会嵌套，形成层级结构：
+ *
+ *   # h1
+ *   <div class="h1-block h-block">
+ *     ## h2
+ *     <div class="h2-block h-block">
+ *       ### h3
+ *       <div class="h3-block h-block">
+ *       </div>
+ *     </div>
+ *   </div>
+ *
+ * 使用场景：
+ * - 给标题及其下属内容增加统一样式（如背景、边框、间距等）
+ * - 构建结构化的 HTML 方便做目录、折叠面板、样式定制
+ */
 export function HContainer(md: MarkdownIt) {
   md.core.ruler.after('block', 'h-container', (state) => {
     const tokens = state.tokens
