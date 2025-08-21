@@ -2,6 +2,7 @@ import markdownit from 'markdown-it'
 import container from 'markdown-it-container'
 import { full as emoji } from 'markdown-it-emoji'
 import { HBlockContainer } from './h-block'
+import { Icons } from './icons'
 
 const markdownParser = markdownit()
 
@@ -38,6 +39,7 @@ markdownParser
     },
   })
   .use(HBlockContainer)
+  .use(Icons)
 
 export {
   markdownParser,

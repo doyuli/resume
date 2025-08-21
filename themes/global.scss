@@ -123,4 +123,17 @@ body {
     flex: auto;
     text-align: center;
   }
+  .iconify-icon {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    color: inherit;
+    vertical-align: -0.2em;
+    fill: currentColor;
+    -webkit-mask: var(--icon) no-repeat;
+    mask: var(--icon) no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    background-color: currentColor;
+  }
 }
