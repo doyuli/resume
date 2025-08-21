@@ -22,6 +22,6 @@ export const themes: ThemeOptions[] = [
     label: '深蓝星空',
     value: 'blue',
     css: blueThemeCss,
-    themeColor: 'blue',
+    themeColor: '#231f61',
   },
 ]

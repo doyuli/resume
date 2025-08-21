@@ -83,8 +83,8 @@ watchEffect(() => {
       <UOperations />
       <div ref="template" class="u-view" style="position: absolute; opacity: 0;" v-html="templateHtml" />
 
-      <div v-for="({ accTop, height }) in templatePageSplits" :key="accTop" class="page-wrap" style="margin-bottom: 20px;">
-        <div class="page-content" :style="{ height: `${height}px` }">
+      <div v-for="({ accTop, height }, i) in templatePageSplits" :key="accTop" class="page-wrap" style="margin-bottom: 20px;">
+        <div class="page-content" :style="{ height: `${height}px`, marginTop: i === 0 ? 0 : 'var(--page-margin-vertical)' }">
           <div class="u-view" :style="{ position: 'absolute', top: `-${accTop}px` }" v-html="templateHtml" />
         </div>
       </div>
@@ -106,13 +106,14 @@ watchEffect(() => {
 }
 
 .page-wrap {
-  padding: 20px 0;
   width: 794px;
   height: 1122px;
   background-color: #ffffff;
   overflow: hidden;
 
   .page-content {
+    margin-top: var(--page-margin-vertical);
+    margin-bottom: var(--page-margin-vertical);
     position: relative;
     overflow: hidden;
   }

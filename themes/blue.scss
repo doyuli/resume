@@ -1,13 +1,37 @@
 @import './global.scss';
 
 :root {
-  --text-color: skyblue;
+  --text-color: #747474;
 }
 
 .u-view {
+  color: #ffffff;
+  .h-block:not(.h1-block) {
+    color: rgba(0, 0, 0, 0.85);
+    background-color: #ffffff;
+  }
+
+  .h1-block {
+    padding-top: 10px;
+    color: #ffffff;
+    background-color: var(--u-theme);
+  }
+
   .lr-container {
     padding-top: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
+    p {
+      color: #ffffff;
+    }
+  }
+
+  a {
+    color: #ffffff;
+    &:hover,
+    &:focus,
+    &:active {
+      color: #ffffff;
+    }
   }
 
   h1 {
@@ -27,7 +51,8 @@
 
   h2,
   h3 {
-    margin: 5px 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 
   p,

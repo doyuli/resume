@@ -43,7 +43,8 @@ export function calculatePageSplits(
   children.forEach((child, index) => {
     const rect = child.getBoundingClientRect()
     const childBottomOffset = rect.bottom - rootTop - accumulatedHeight
-    const maxHeight = pageMaxHeight
+    // --page-margin-vertical
+    const maxHeight = pageHeights.length === 0 ? pageMaxHeight + 20 : pageMaxHeight
 
     // 当前页能否容纳该元素？
     if (childBottomOffset > maxHeight) {

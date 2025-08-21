@@ -2,10 +2,26 @@
   font-family: var(--u-font-family);
 }
 
+:root {
+  --page-margin-vertical: 20px;
+  --page-margin-horizontal: 50px;
+}
+
+body {
+  margin: 0;
+}
+
+@page {
+  margin-top: var(--page-margin-vertical);
+  margin-bottom: var(--page-margin-vertical);
+}
+
+@page :first {
+  margin-top: 0mm;
+}
+
 .u-view {
   width: 100%;
-  padding-left: 50px;
-  padding-right: 50px;
   box-sizing: border-box;
   line-height: var(--u-line-height);
 
@@ -17,9 +33,8 @@
   h6,
   ul,
   ol,
-  li,
   p {
-    margin: 0;
+    margin: 0 var(--page-margin-horizontal);
     box-sizing: border-box;
   }
 
