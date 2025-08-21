@@ -1,0 +1,35 @@
+@import './global.scss';
+
+.u-view {
+  --text-color: skyblue;
+
+  .lr-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 30px;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-size: 20px;
+    color: var(--u-theme);
+    border-bottom: 1px solid var(--u-theme);
+  }
+
+  h3 {
+    font-size: 14px;
+  }
+
+  h2,
+  h3 {
+    margin: 5px 0;
+  }
+
+  p,
+  li {
+    font-size: 13px;
+  }
+}

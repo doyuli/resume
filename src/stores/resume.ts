@@ -15,6 +15,7 @@ export const useResumeStore = defineStore(
       fontFamily: 'Noto Sans SC',
       color: '#a8b1ff',
       lineHeight: 1.9,
+      theme: 'default',
     })
 
     return toRefs(resumeConfig)
@@ -23,3 +24,5 @@ export const useResumeStore = defineStore(
     persist: true,
   },
 )
+
+export type ResumeStore = ReturnType<typeof useResumeStore>

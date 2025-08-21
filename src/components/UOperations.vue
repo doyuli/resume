@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useResumeStore } from '@/stores'
+import { themes } from '@/themes'
 import UColorPicker from './UColorPicker.vue'
 
 const resumeStore = useResumeStore()
-const { color, lineHeight, fontFamily } = storeToRefs(resumeStore)
+const { color, lineHeight, fontFamily, theme } = storeToRefs(resumeStore)
 
 const lineHeights = Array.from({ length: 14 }, (_, i) => {
   const value = i + 12
@@ -32,6 +33,12 @@ const fonts = [
 
 <template>
   <div class="u-operations">
+    <select v-model="theme" title="设置主题">
+      <option v-for="item in themes" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </option>
+    </select>
+
     <select v-model="lineHeight" title="设置行距">
       <option v-for="item in lineHeights" :key="item.value" :value="item.value">
         {{ item.label }}

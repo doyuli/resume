@@ -17,6 +17,7 @@ import {
   useTemplateStore,
 } from '@/stores'
 import { calculatePageSplits } from '@/utils/page-splitter'
+import { initialThemes, setCurrentTheme } from '@/utils/theme'
 
 import UOperations from './UOperations.vue'
 
@@ -60,7 +61,13 @@ onUnmounted(() => {
 
 /** setting */
 const resumeStore = useResumeStore()
-const { color, lineHeight, fontFamily } = storeToRefs(resumeStore)
+const { color, lineHeight, fontFamily, theme } = storeToRefs(resumeStore)
+
+initialThemes()
+
+watchEffect(() => {
+  setCurrentTheme(theme.value)
+})
 </script>
 
 <template>
