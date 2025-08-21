@@ -80,6 +80,8 @@ pnpm compile:theme
 import type { ResumeStore } from '@/stores'
 import blueThemeCss from './blue.css?raw'
 import defaultThemeCss from './default.css?raw'
+// my-theme
+import myThemeCss from './my-theme.css?raw'
 
 export interface ThemeOptions {
   label: string
@@ -103,6 +105,7 @@ export const themes: ThemeOptions[] = [
     css: blueThemeCss,
     themeColor: 'blue',
   },
+  // my-theme
   {
     label: '我的主题',
     value: 'my-theme',
