@@ -1,8 +1,10 @@
 @import './global.scss';
 
-.u-view {
+:root {
   --text-color: #747474;
+}
 
+.u-view {
   .lr-container {
     padding-top: 10px;
     padding-bottom: 10px;

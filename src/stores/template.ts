@@ -1,6 +1,6 @@
 import { defineStore, storeToRefs } from 'pinia'
 import { shallowRef } from 'vue'
-import defaultCss from '@/themes/default.css?raw'
+import { getCurrentTheme } from '@/utils/theme'
 import { StylePropertyEnum, useResumeStore } from '.'
 
 // TODO：待优化
@@ -17,7 +17,7 @@ export const useTemplateStore = defineStore(
   'template',
   () => {
     const resumeStore = useResumeStore()
-    const { color, lineHeight, fontFamily } = storeToRefs(resumeStore)
+    const { color, lineHeight, fontFamily, theme } = storeToRefs(resumeStore)
 
     const code = shallowRef('')
     const templateHtml = shallowRef('')
@@ -39,7 +39,8 @@ export const useTemplateStore = defineStore(
     }
 
     function getExportHtml() {
-      const styleContent = (defaultCss)
+      const current = getCurrentTheme(theme.value)
+      const styleContent = (current.css)
         .replaceAll(`var(${[StylePropertyEnum.THEME_COLOR]})`, color.value)
         .replaceAll(`var(${[StylePropertyEnum.LINE_HEIGHT]})`, lineHeight.value.toString())
         .replaceAll(`var(${[StylePropertyEnum.FONT_FAMILY]})`, fontFamily.value)
