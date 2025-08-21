@@ -5,7 +5,7 @@ export default antfu(
     formatters: true,
     ignores: [
       'templates',
-      'src/themes/*',
+      'src/themes/*.css',
     ],
   },
   {
