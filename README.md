@@ -39,6 +39,21 @@ pnpm dev
 pnpm dev:node
 ```
 
+### 在简历中使用图标 🪄
+
+为了让简历更直观，本项目支持通过自定义语法插入 Iconify 图标。
+只需要在 Markdown 中写：
+
+```md
+联系我 :icon-mdi:github
+邮箱 :icon-mdi:email
+电话 :icon-mdi:phone
+```
+
+图标语法说明 `:icon-集合名:图标名`
+
+> 所有可用的图标集合和名称都可以在 [iconify 图标库](https://icon-sets.iconify.design/) 中搜索
+
 ## 🎨 定制主题指南
 
 简历的样式完全可定制，支持 Sass + CSS 变量
@@ -128,3 +143,4 @@ export const themes: ThemeOptions[] = [
 
 - [mujicv](https://www.mujicv.com/)
 - [codemirror](https://codemirror.net/)
+- [iconify](https://iconify.design/)
