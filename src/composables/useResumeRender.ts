@@ -6,16 +6,17 @@ import { markdownParser } from '@/markdown'
 import { useTemplateStore } from '@/stores'
 import { calculatePageSplits } from '@/utils/page-splitter'
 
-interface ResumePreviewOptions {
+interface ResumeRenderOptions {
   previewDelay?: number
   splitsDelay?: number
+  pageMaxHeight?: number
 }
 
-export function useResumePreview(
+export function useResumeRender(
   containerRef: Readonly<ShallowRef<HTMLDivElement | null>>,
-  options?: ResumePreviewOptions,
+  options?: ResumeRenderOptions,
 ) {
-  const { previewDelay = 300, splitsDelay = 300 } = options || {}
+  const { previewDelay = 300, splitsDelay = 300, pageMaxHeight = 1122 - 40 } = options || {}
 
   const templateStore = useTemplateStore()
 
@@ -38,7 +39,7 @@ export function useResumePreview(
   function updatePageSplits() {
     nextTick(() => {
       if (containerRef.value) {
-        pageSplits.value = calculatePageSplits(containerRef.value, { pageMaxHeight: 1122 - 40 })
+        pageSplits.value = calculatePageSplits(containerRef.value, { pageMaxHeight })
       }
     })
   }

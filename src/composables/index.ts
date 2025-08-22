@@ -1,1 +1,1 @@
-export { useResumePreview } from './useResumePreview'
+export { useResumeRender } from './useResumeRender'
