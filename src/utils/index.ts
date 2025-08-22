@@ -1,5 +1,5 @@
-export function downloadFile(blob: Blob, fileName = 'resume.pdf') {
-  const url = window.URL.createObjectURL(blob)
+export function downloadFile(load: Blob | string, fileName = 'resume.pdf') {
+  const url = typeof load === 'string' ? load : window.URL.createObjectURL(load)
   const link = document.createElement('a')
   link.href = url
   link.download = fileName

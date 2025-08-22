@@ -2,6 +2,7 @@ import { H_BLOCK_CLASS_NAME } from '../markdown/h-container'
 
 export interface PageSplitOptions {
   pageMaxHeight?: number
+  firstPageOffset?: number
 }
 
 export interface PageSplitReturn {
@@ -21,6 +22,7 @@ export function calculatePageSplits(
 ): PageSplitReturn[] {
   const {
     pageMaxHeight = 1082,
+    firstPageOffset = 20,
   } = options
 
   // 1. 获取所有子元素及其位置信息
@@ -44,7 +46,7 @@ export function calculatePageSplits(
     const rect = child.getBoundingClientRect()
     const childBottomOffset = rect.bottom - rootTop - accumulatedHeight
     // --page-margin-vertical
-    const maxHeight = pageHeights.length === 0 ? pageMaxHeight + 20 : pageMaxHeight
+    const maxHeight = pageHeights.length === 0 ? pageMaxHeight + firstPageOffset : pageMaxHeight
 
     // 当前页能否容纳该元素？
     if (childBottomOffset > maxHeight) {
