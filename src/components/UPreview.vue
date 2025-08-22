@@ -1,65 +1,16 @@
 <script setup lang="ts">
-import type { PageSplitReturn } from '@/utils/page-splitter'
-import { useDebounceFn } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
-import {
-  nextTick,
-  onMounted,
-  onUnmounted,
-  shallowRef,
-  useTemplateRef,
-  watchEffect,
-} from 'vue'
-import { markdownParser } from '@/markdown'
-import {
-  StylePropertyEnum,
-  useResumeStore,
-  useTemplateStore,
-} from '@/stores'
-import { calculatePageSplits } from '@/utils/page-splitter'
+import { useTemplateRef, watchEffect } from 'vue'
+import { useResumePreview } from '@/composables'
+import { StylePropertyEnum, useResumeStore } from '@/stores'
 import { initialThemes, setCurrentTheme } from '@/utils/theme'
 
 import UOperations from './UOperations.vue'
 
-const templateStore = useTemplateStore()
-
-const templateHtml = shallowRef('')
-
 const templateRef = useTemplateRef('template')
 
-const templatePageSplits = shallowRef<PageSplitReturn[]>([])
+const { templateHtml, pageSplits } = useResumePreview(templateRef)
 
-function updatePageSplits() {
-  nextTick(() => {
-    templatePageSplits.value = calculatePageSplits(templateRef.value!, { pageMaxHeight: 1122 - 40 })
-  })
-}
-
-const debouncedUpdatePageSplits = useDebounceFn(() => {
-  updatePageSplits()
-}, 200)
-
-const resizeObserver = new ResizeObserver(() => {
-  debouncedUpdatePageSplits()
-})
-
-watchEffect(() => {
-  templateHtml.value = markdownParser.render(templateStore.code)
-  templateStore.setTemplateHtml(templateHtml.value)
-  debouncedUpdatePageSplits()
-})
-
-onMounted(() => {
-  if (templateRef.value) {
-    resizeObserver.observe(templateRef.value)
-  }
-})
-
-onUnmounted(() => {
-  resizeObserver.disconnect()
-})
-
-/** setting */
 const resumeStore = useResumeStore()
 const { color, lineHeight, fontFamily, theme } = storeToRefs(resumeStore)
 
@@ -83,7 +34,7 @@ watchEffect(() => {
       <UOperations />
       <div ref="template" class="u-view" style="position: absolute; opacity: 0;" v-html="templateHtml" />
 
-      <div v-for="({ accTop, height }, i) in templatePageSplits" :key="accTop" class="page-wrap" style="margin-bottom: 20px;">
+      <div v-for="({ accTop, height }, i) in pageSplits" :key="accTop" class="page-wrap" style="margin-bottom: 20px;">
         <div class="page-content" :style="{ height: `${height}px`, marginTop: i === 0 ? 0 : 'var(--page-margin-vertical)' }">
           <div class="u-view" :style="{ position: 'absolute', top: `-${accTop}px` }" v-html="templateHtml" />
         </div>
