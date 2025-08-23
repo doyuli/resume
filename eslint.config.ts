@@ -6,6 +6,7 @@ export default antfu(
     ignores: [
       'templates',
       'src/themes/*.css',
+      'README.md',
     ],
   },
   {

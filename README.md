@@ -90,19 +90,12 @@ pnpm compile:theme
 在 `src/themes/index.ts` 中添加新主题配置：
 
 ```ts
-import type { ResumeStore } from '@/stores'
-import blueThemeCss from './blue.css?raw'
-import defaultThemeCss from './default.css?raw'
+import type { ThemeOptions } from '@/utils/theme'
+import { getThemeOptions, registerTheme } from '@/utils/theme'
+import blueThemeCss from './styles/blue.css?raw'
+import defaultThemeCss from './styles/default.css?raw'
 // my-theme
-import myThemeCss from './my-theme.css?raw'
-
-export interface ThemeOptions {
-  label: string
-  value: string
-  css: string
-  themeColor?: string
-  custom?: (context: ResumeStore) => void
-}
+import myThemeCss from './styles/my-theme.css?raw'
 
 export const defaultTheme = {
   label: '极简主义',
@@ -110,25 +103,20 @@ export const defaultTheme = {
   css: defaultThemeCss,
 }
 
-export const themes: ThemeOptions[] = [
-  defaultTheme,
-  {
-    label: '深蓝星空',
-    value: 'blue',
-    css: blueThemeCss,
-    themeColor: 'blue',
+registerTheme(defaultTheme)
+// my-theme
+registerTheme({
+  label: '我的主题',
+  value: 'my-theme',
+  css: myThemeCss,
+  themeColor: '#1890ff',
+  custom: (context) => {
+    // 可选：对数据进行特殊处理
   },
-  // my-theme
-  {
-    label: '我的主题',
-    value: 'my-theme',
-    css: myThemeCss,
-    themeColor: '#1890ff',
-    custom: (store) => {
-      // 可选：对数据进行特殊处理
-    },
-  },
-]
+})
+
+// ⚠️ Must be at the end
+export const themes = getThemeOptions()
 ```
 
 完成后，就可以在页面中切换到新主题啦 ✨
