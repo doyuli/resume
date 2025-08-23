@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useTemplateRef, watchEffect } from 'vue'
 import { useResumeRender } from '@/composables'
 import { StylePropertyEnum, useResumeStore } from '@/stores'
-import { initialThemes, setCurrentTheme } from '@/utils/theme'
+import { setCurrentTheme } from '@/utils/theme'
 
 import UOperations from './UOperations.vue'
 
@@ -13,8 +13,6 @@ const { templateHtml, pageSplits } = useResumeRender(templateRef)
 
 const resumeStore = useResumeStore()
 const { color, lineHeight, fontFamily, theme } = storeToRefs(resumeStore)
-
-initialThemes()
 
 watchEffect(() => {
   setCurrentTheme(theme.value)

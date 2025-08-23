@@ -1,24 +1,35 @@
-import type { ThemeOptions } from '@/themes'
+import type { ResumeStore } from '@/stores'
 import { useResumeStore } from '@/stores'
-import { defaultTheme, themes } from '@/themes'
+import { defaultTheme } from '@/themes'
+
+export interface ThemeOptions {
+  label: string
+  value: string
+  css: string
+  themeColor?: string
+  custom?: (context: ResumeStore) => void
+}
 
 const themesMap = new Map<string, ThemeOptions>()
 
 const THEME_STYLE_ID = 'U_THEME_STYLE'
 let el: HTMLStyleElement
-let initialized = false
 
-export function registerTheme(name: string, opts: ThemeOptions) {
-  themesMap.set(name, opts)
+export function registerTheme(opts: ThemeOptions) {
+  themesMap.set(opts.value, opts)
 }
 
-export function initialThemes() {
-  if (!initialized) {
-    themes.forEach((opts) => {
-      registerTheme(opts.value, opts)
-    })
-    initialized = true
-  }
+export function registerThemes(themes: ThemeOptions[]) {
+  themes.forEach((opts) => {
+    registerTheme(opts)
+  })
+}
+
+export function getThemeOptions() {
+  return Array.from(themesMap.entries()).map(([_, opts]) => ({
+    label: opts.label,
+    value: opts.value,
+  }))
 }
 
 export function getCurrentTheme(name: string): ThemeOptions {

@@ -7,6 +7,7 @@ import { PiniaPersistPlugin } from '@/utils/pinia-persist'
 import App from './App.vue'
 import './styles/main.css'
 import './styles/icons.css'
+import './themes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

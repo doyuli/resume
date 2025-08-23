@@ -1,27 +1,21 @@
-import type { ResumeStore } from '@/stores'
-import blueThemeCss from './blue.css?raw'
-import defaultThemeCss from './default.css?raw'
+import type { ThemeOptions } from '@/utils/theme'
+import { getThemeOptions, registerTheme } from '@/utils/theme'
+import blueThemeCss from './styles/blue.css?raw'
+import defaultThemeCss from './styles/default.css?raw'
 
-export interface ThemeOptions {
-  label: string
-  value: string
-  css: string
-  themeColor?: string
-  custom?: (context: ResumeStore) => void
-}
-
-export const defaultTheme = {
+export const defaultTheme: ThemeOptions = {
   label: '极简主义',
   value: 'default',
   css: defaultThemeCss,
 }
 
-export const themes: ThemeOptions[] = [
-  defaultTheme,
-  {
-    label: '深蓝星空',
-    value: 'blue',
-    css: blueThemeCss,
-    themeColor: '#231f61',
-  },
-]
+registerTheme(defaultTheme)
+registerTheme({
+  label: '深蓝星空',
+  value: 'blue',
+  css: blueThemeCss,
+  themeColor: '#231f61',
+})
+
+// ⚠️ Must be at the end
+export const themes = getThemeOptions()
