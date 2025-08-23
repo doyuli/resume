@@ -52,6 +52,8 @@ export function useResumeExport(options: ResumeExportOptions = {}) {
     })
 
     if (!resp.ok) {
+      // eslint-disable-next-line no-alert
+      alert('暂不支持客户端导出 pdf，敬请期待！')
       throw new Error(resp.statusText)
     }
 

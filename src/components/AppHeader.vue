@@ -1,12 +1,27 @@
 <script setup lang="ts">
+import { onClickOutside, useToggle } from '@vueuse/core'
+import { useTemplateRef } from 'vue'
 import { useResumeExport } from '@/composables'
 import { useResumeStore } from '@/stores'
 import UIconLink from './UIconLink.vue'
 import USwitch from './USwitch.vue'
 
+const resumeStore = useResumeStore()
+
 const { isLoading, handleExport } = useResumeExport()
 
-const resumeStore = useResumeStore()
+const [showDropdownMenu, toggleDropdown] = useToggle()
+
+const target = useTemplateRef<HTMLElement>('target')
+
+onClickOutside(target, () => showDropdownMenu.value = false)
+
+type ExportParameters = Parameters<typeof handleExport>
+
+function handleDropdownExport(...args: ExportParameters) {
+  showDropdownMenu.value = false
+  handleExport(...args)
+}
 </script>
 
 <template>
@@ -19,9 +34,21 @@ const resumeStore = useResumeStore()
       <div class="divider" />
       <USwitch />
       <div class="divider" />
-      <button :class="{ loading: isLoading }" @click="handleExport('pdf')">
-        {{ isLoading ? '导出中' : '导出' }}
-      </button>
+      <div ref="target" class="dropdown" @click.stop>
+        <button :class="{ loading: isLoading }" @click="toggleDropdown()">
+          {{ isLoading ? '导出中' : '导出' }}
+        </button>
+        <transition name="fade-slide">
+          <ul v-if="showDropdownMenu" class="dropdown-menu">
+            <li @click="handleDropdownExport('pdf')">
+              导出 PDF
+            </li>
+            <li @click="handleDropdownExport('image')">
+              导出图片
+            </li>
+          </ul>
+        </transition>
+      </div>
     </div>
   </header>
 </template>
@@ -80,13 +107,59 @@ input {
 }
 
 button {
-  padding: 4px 12px;
+  padding: 6px 12px;
   color: #ffffff;
   font-size: 12px;
   background-color: var(--u-theme);
-  border-radius: 8px;
+  border-radius: 4px;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  .dropdown-menu {
+    position: absolute;
+    top: 108%;
+    right: 0;
+    background: var(--u-bg);
+    border: 1px solid var(--u-border);
+    border-radius: 4px;
+    margin-top: 4px;
+    list-style: none;
+    padding: 0;
+    min-width: 100px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+
+  .dropdown-menu li {
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+
+  .dropdown-menu li:hover {
+    background: var(--u-divider);
+  }
+}
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+.fade-slide-enter-to,
+.fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
