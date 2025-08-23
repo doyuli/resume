@@ -46,6 +46,9 @@ function handleDropdownExport(...args: ExportParameters) {
             <li @click="handleDropdownExport('image')">
               导出图片
             </li>
+            <li @click="handleDropdownExport('md')">
+              导出 MD
+            </li>
           </ul>
         </transition>
       </div>

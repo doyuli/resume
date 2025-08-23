@@ -11,7 +11,7 @@ export function useResumeExport(options: ResumeExportOptions = {}) {
   const { checkHealth = true } = options
 
   const resumeStore = useResumeStore()
-  const { getExportHtml } = useTemplateStore()
+  const { getExportHtml, getCode } = useTemplateStore()
 
   const isLoading = shallowRef(false)
   // 后端导出服务是否可用，决定 PDF 导出的可行性
@@ -21,26 +21,27 @@ export function useResumeExport(options: ResumeExportOptions = {}) {
     fetch('/api/health').then(resp => isServiceHealth.value = resp.ok)
   }
 
-  async function handleExport(format: 'image' | 'pdf') {
+  const handleActions = {
+    pdf: () => exportPdf(),
+    image: () => exportImage(),
+    md: () => exportMarkdown(),
+  }
+
+  async function handleExport(format: 'image' | 'pdf' | 'md') {
     if (isLoading.value)
       return
 
     try {
       isLoading.value = true
 
-      if (format === 'pdf') {
-        await handleExportPdf()
-      }
-      else {
-        await handleExportImage()
-      }
+      await handleActions[format]()
     }
     finally {
       isLoading.value = false
     }
   }
 
-  async function handleExportPdf() {
+  async function exportPdf() {
     const resp = await fetch('/api/export', {
       method: 'POST',
       headers: {
@@ -57,14 +58,20 @@ export function useResumeExport(options: ResumeExportOptions = {}) {
       throw new Error(resp.statusText)
     }
 
-    downloadFile(await resp.blob(), resumeStore.name)
+    downloadFile(await resp.blob(), `${resumeStore.name}.pdf`)
   }
 
-  async function handleExportImage() {
+  async function exportImage() {
     await exportElementAsFile('#print-signal', {
       format: 'image',
       filename: resumeStore.name,
     })
+  }
+
+  async function exportMarkdown() {
+    const markdown = getCode()
+    const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' })
+    downloadFile(blob, `${resumeStore.name}.md`)
   }
 
   if (checkHealth) {
