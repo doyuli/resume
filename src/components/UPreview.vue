@@ -32,7 +32,7 @@ watchEffect(() => {
       }"
     >
       <UOperations />
-      <div id="print-signal" ref="template" class="u-view" style="position: absolute; opacity: 0;" v-html="templateHtml" />
+      <div id="print-signal" ref="template" class="u-view" style="opacity: 0;" v-html="templateHtml" />
 
       <div v-for="({ accTop, height }, i) in pageSplits" :key="accTop" class="page-wrap" style="margin-bottom: 20px;">
         <div class="page-content" :style="{ height: `${height}px`, marginTop: i === 0 ? 0 : 'var(--page-margin-vertical)' }">
@@ -44,6 +44,11 @@ watchEffect(() => {
 </template>
 
 <style lang="scss" scoped>
+#print-signal {
+  position: absolute;
+  z-index: -1;
+}
+
 .preview {
   height: calc(100vh - var(--header-height));
   overflow-y: auto;

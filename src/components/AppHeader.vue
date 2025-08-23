@@ -1,59 +1,25 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { shallowRef } from 'vue'
-import { useResumeStore, useTemplateStore } from '@/stores'
-import { downloadFile } from '@/utils'
+import { useResumeExport } from '@/composables'
+import { useResumeStore } from '@/stores'
 import UIconLink from './UIconLink.vue'
 import USwitch from './USwitch.vue'
 
-const { getExportHtml } = useTemplateStore()
+const { isLoading, handleExport } = useResumeExport()
 
 const resumeStore = useResumeStore()
-const { name: resumeName } = storeToRefs(resumeStore)
-
-const isLoading = shallowRef(false)
-
-async function exportPdf() {
-  if (isLoading.value)
-    return
-
-  try {
-    isLoading.value = true
-    const resp = await fetch('/api/export', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        htmlContent: getExportHtml(),
-      }),
-    })
-
-    if (!resp.ok) {
-      // eslint-disable-next-line no-alert
-      alert('暂不支持客户端导出，敬请期待！')
-      throw new Error(resp.statusText)
-    }
-
-    downloadFile(await resp.blob(), resumeName.value)
-  }
-  finally {
-    isLoading.value = false
-  }
-}
 </script>
 
 <template>
   <header>
     <div class="resume">
-      <input v-model="resumeName" placeholder="请输入" type="text">
+      <input v-model="resumeStore.name" placeholder="请输入" type="text">
     </div>
     <div class="operations">
       <UIconLink icon="github" link="https://github.com/doyuli/resume" />
       <div class="divider" />
       <USwitch />
       <div class="divider" />
-      <button :class="{ loading: isLoading }" @click="exportPdf">
+      <button :class="{ loading: isLoading }" @click="handleExport('pdf')">
         {{ isLoading ? '导出中' : '导出' }}
       </button>
     </div>
