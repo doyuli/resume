@@ -22,12 +22,13 @@ export function useResumeExport(options: ResumeExportOptions = {}) {
   }
 
   const handleActions = {
-    pdf: () => exportPdf(),
-    image: () => exportImage(),
-    md: () => exportMarkdown(),
+    'pdf-service': () => exportPdfService(),
+    'pdf-client': () => exportPdfClient(),
+    'image': () => exportImage(),
+    'md': () => exportMarkdown(),
   }
 
-  async function handleExport(format: 'image' | 'pdf' | 'md') {
+  async function handleExport(format: 'image' | 'md' | 'pdf-service' | 'pdf-client') {
     if (isLoading.value)
       return
 
@@ -41,7 +42,12 @@ export function useResumeExport(options: ResumeExportOptions = {}) {
     }
   }
 
-  async function exportPdf() {
+  async function exportPdfService() {
+    if (!isServiceHealth.value) {
+      // eslint-disable-next-line no-alert
+      alert('高质量 PDF 导出需要服务端支持，请确保已启动服务端或正确配置接口后再重试')
+      return
+    }
     const resp = await fetch('/api/export', {
       method: 'POST',
       headers: {
@@ -53,12 +59,17 @@ export function useResumeExport(options: ResumeExportOptions = {}) {
     })
 
     if (!resp.ok) {
-      // eslint-disable-next-line no-alert
-      alert('暂不支持客户端导出 pdf，敬请期待！')
       throw new Error(resp.statusText)
     }
 
     downloadFile(await resp.blob(), `${resumeStore.name}.pdf`)
+  }
+
+  async function exportPdfClient() {
+    await exportElementAsFile('#print-signal', {
+      format: 'pdf',
+      filename: resumeStore.name,
+    })
   }
 
   async function exportImage() {

@@ -8,7 +8,7 @@ import USwitch from './USwitch.vue'
 
 const resumeStore = useResumeStore()
 
-const { isLoading, handleExport } = useResumeExport()
+const { isLoading, isServiceHealth, handleExport } = useResumeExport()
 
 const [showDropdownMenu, toggleDropdown] = useToggle()
 
@@ -40,8 +40,11 @@ function handleDropdownExport(...args: ExportParameters) {
         </button>
         <transition name="fade-slide">
           <ul v-if="showDropdownMenu" class="dropdown-menu">
-            <li @click="handleDropdownExport('pdf')">
-              导出 PDF
+            <li @click="handleDropdownExport('pdf-client')">
+              快速导出 PDF
+            </li>
+            <li v-if="isServiceHealth" @click="handleDropdownExport('pdf-service')">
+              高质量导出 PDF
             </li>
             <li @click="handleDropdownExport('image')">
               导出图片
@@ -141,6 +144,7 @@ button {
 
   .dropdown-menu li {
     padding: 6px 12px;
+    white-space: nowrap;
     cursor: pointer;
   }
 

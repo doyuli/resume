@@ -45,6 +45,7 @@ watchEffect(() => {
 #print-signal {
   position: absolute;
   z-index: -1;
+  background-color: #ffffff !important;
 }
 
 .preview {
@@ -75,9 +76,9 @@ watchEffect(() => {
 
 /** dark theme */
 .dark .page-wrap {
-  background-color: #e6e6e6 !important;
+  background-color: #e6e6e6;
 }
 .dark .u-view {
-  background-color: #e6e6e6 !important;
+  background-color: #e6e6e6;
 }
 </style>
