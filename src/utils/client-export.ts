@@ -101,17 +101,18 @@ function cropCanvas(
   start: number,
   end: number,
   margin: number,
+  background: string = '#ffffff',
 ) {
   const height = end - start
   const width = source.width
 
   const canvas = document.createElement('canvas')
   canvas.width = width
-  canvas.height = height
+  canvas.height = height + margin
 
   const ctx = canvas.getContext('2d')!
 
-  ctx.fillStyle = '#ffffff'
+  ctx.fillStyle = background
   ctx.fillRect(0, 0, width, canvas.height)
 
   ctx.drawImage(
