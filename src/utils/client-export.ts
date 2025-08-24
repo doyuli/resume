@@ -1,11 +1,14 @@
 import html2canvas from 'html2canvas'
 import JsPDF from 'jspdf'
 import { downloadFile } from '@/utils'
+import { calculatePageSplits } from './page-splitter'
 
 interface ExportOptions {
   filename?: string
   format?: 'image' | 'pdf'
 }
+
+const CANVS_SCALE = 2
 
 export async function exportElementAsFile(
   selector: string | HTMLElement,
@@ -30,8 +33,7 @@ export async function exportElementAsFile(
     el.style.backgroundColor = 'transparent'
   })
 
-  const canvas = await html2canvas(container, { scale: 2 })
-  const imgData = canvas.toDataURL('image/png')
+  const canvas = await html2canvas(container, { scale: CANVS_SCALE })
 
   maskEls.forEach((el) => {
     el.style.backgroundColor = 'currentColor'
@@ -39,32 +41,71 @@ export async function exportElementAsFile(
   container.style.opacity = '0'
 
   if (format === 'pdf') {
-    generatePdfFromImage(imgData, filename)
+    generatePdfFromCanvas(canvas, filename, container)
   }
   else {
+    const imgData = canvas.toDataURL('image/png')
     downloadFile(imgData, filename)
   }
 }
 
-function generatePdfFromImage(imgData: string, filename: string): void {
-  const pdf = new JsPDF('p', 'mm', 'a4')
-  const pageWidth = pdf.internal.pageSize.getWidth()
-  const pageHeight = pdf.internal.pageSize.getHeight()
+function generatePdfFromCanvas(
+  canvas: HTMLCanvasElement,
+  filename: string,
+  container: HTMLElement,
+) {
+  const pageSplits = calculatePageSplits(container)
 
-  const imgProps = pdf.getImageProperties(imgData)
-  const imgHeight = (imgProps.height * pageWidth) / imgProps.width
+  const pdf = new JsPDF('p', 'pt', 'a4')
+  const pdfWidth = pdf.internal.pageSize.getWidth()
 
-  let position = 0
-  let remainingHeight = imgHeight
+  pageSplits.forEach((page, index) => {
+    const { accTop, height } = page
 
-  while (remainingHeight > 0) {
-    pdf.addImage(imgData, 'PNG', 0, position, pageWidth, imgHeight)
-    remainingHeight -= pageHeight
-    if (remainingHeight > 0) {
+    const scaleAccTop = accTop * CANVS_SCALE
+    const scaleHeight = height * CANVS_SCALE
+
+    const cropped = cropCanvas(canvas, scaleAccTop, scaleAccTop + scaleHeight)
+    const imgData = cropped.toDataURL('image/png')
+    const pdfHeight = (cropped.height * pdfWidth) / cropped.width
+
+    if (index > 0) {
       pdf.addPage()
-      position = -(imgHeight - remainingHeight)
     }
-  }
+
+    pdf.addImage(
+      imgData,
+      'PNG',
+      0,
+      0,
+      pdfWidth,
+      pdfHeight,
+    )
+  })
 
   pdf.save(filename)
+}
+
+function cropCanvas(source: HTMLCanvasElement, start: number, end: number) {
+  const height = end - start
+  const width = source.width
+
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+
+  const ctx = canvas.getContext('2d')!
+  ctx.drawImage(
+    source,
+    0,
+    start,
+    width,
+    height,
+    0,
+    0,
+    width,
+    height,
+  )
+
+  return canvas
 }
