@@ -8,6 +8,7 @@ interface ExportOptions {
   format?: 'image' | 'pdf'
 }
 
+// canvas 缩放倍数，影响 html2canvas 渲染清晰度
 const CANVS_SCALE = 2
 
 export async function exportElementAsFile(
@@ -64,8 +65,14 @@ function generatePdfFromCanvas(
 
     const scaleAccTop = accTop * CANVS_SCALE
     const scaleHeight = height * CANVS_SCALE
+    const scaleMargin = 20 * CANVS_SCALE
 
-    const cropped = cropCanvas(canvas, scaleAccTop, scaleAccTop + scaleHeight)
+    const cropped = cropCanvas(
+      canvas,
+      scaleAccTop,
+      scaleAccTop + scaleHeight,
+      index === 0 ? 0 : scaleMargin,
+    )
     const imgData = cropped.toDataURL('image/png')
     const pdfHeight = (cropped.height * pdfWidth) / cropped.width
 
@@ -86,7 +93,15 @@ function generatePdfFromCanvas(
   pdf.save(filename)
 }
 
-function cropCanvas(source: HTMLCanvasElement, start: number, end: number) {
+/**
+ * 裁剪原始 Canvas 指定区域
+ */
+function cropCanvas(
+  source: HTMLCanvasElement,
+  start: number,
+  end: number,
+  margin: number,
+) {
   const height = end - start
   const width = source.width
 
@@ -95,6 +110,10 @@ function cropCanvas(source: HTMLCanvasElement, start: number, end: number) {
   canvas.height = height
 
   const ctx = canvas.getContext('2d')!
+
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, width, canvas.height)
+
   ctx.drawImage(
     source,
     0,
@@ -102,7 +121,7 @@ function cropCanvas(source: HTMLCanvasElement, start: number, end: number) {
     width,
     height,
     0,
-    0,
+    margin,
     width,
     height,
   )
